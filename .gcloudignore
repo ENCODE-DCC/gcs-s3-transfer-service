@@ -1,0 +1,5 @@
+*
+!main.py
+!app.yaml
+!requirements.txt
+!gcs_s3_transfer_service/*
