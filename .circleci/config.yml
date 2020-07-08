@@ -3,7 +3,7 @@ version: 2.1
 
 py38: &py38
   docker:
-    - image: circleci/python:3.8.3-stretch
+    - image: circleci/python:3.8.3
   working_directory: ~/gcs-s3-transfer-service
 
 commands:
@@ -43,7 +43,7 @@ jobs:
           toxenv: coverage-report
 
 workflows:
-  build_workflow:
+  main:
     jobs:
       - lint
       - test_py38:
