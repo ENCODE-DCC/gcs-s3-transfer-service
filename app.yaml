@@ -1,2 +1,3 @@
 ---
 runtime: python38
+service: gcs-s3-upload
