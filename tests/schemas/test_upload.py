@@ -1,6 +1,3 @@
-import json
-from pathlib import Path
-
 import pytest
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
@@ -20,7 +17,8 @@ def test_upload_schema_valid(schema):
             "aws_secret_key": "bar",
             "aws_session_token": "baz",
         },
-        "gcs_uri": "gs://cool-bucket/file",
+        "aws_s3_object": {"bucket": "s3", "key": "object"},
+        "gcs_blob": {"bucket": "cool", "name": "object"},
     }
     validate(data, schema=schema)
 
@@ -28,17 +26,29 @@ def test_upload_schema_valid(schema):
 @pytest.mark.parametrize(
     "data",
     [
-        ({"gcs_uri": "gs://foo/bar", "aws_credentials": {"aws_access_key_id": "bar"}},),
-        (
-            {
-                "gcs_uri": "gs://foo/",
-                "aws_credentials": {
-                    "aws_access_key_id": "bar",
-                    "aws_secret_key": "bar",
-                    "aws_session_token": "baz",
-                },
+        {
+            "gcs_blob": {"bucket": "foo", "name": "bar"},
+            "aws_credentials": {"aws_access_key_id": "bar"},
+            "aws_s3_object": {"bucket": "nice", "key": "object"},
+        },
+        {
+            "gcs_blob": {"bucket": "foo"},
+            "aws_credentials": {
+                "aws_access_key_id": "bar",
+                "aws_secret_key": "bar",
+                "aws_session_token": "baz",
             },
-        ),
+            "aws_s3_object": {"bucket": "nice", "key": "object"},
+        },
+        {
+            "gcs_blob": {"bucket": "foo", "name": "blob"},
+            "aws_credentials": {
+                "aws_access_key_id": "bar",
+                "aws_secret_key": "bar",
+                "aws_session_token": "baz",
+            },
+            "aws_s3_object": {"bucket": "nice"},
+        },
     ],
 )
 def test_upload_schema_invalid(schema, data):

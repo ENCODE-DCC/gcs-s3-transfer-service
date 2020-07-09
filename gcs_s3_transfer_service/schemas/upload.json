@@ -19,14 +19,41 @@
       ],
       "type": "object"
     },
-    "gcs_uri": {
-      "pattern": "^gs:\\/\\/[\\da-z\\-._]*\\/.+$",
-      "type": "string"
+    "aws_s3_object": {
+      "properties": {
+        "bucket": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "bucket",
+        "key"
+      ],
+      "type": "object"
+    },
+    "gcs_blob": {
+      "properties": {
+        "bucket": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "bucket",
+        "name"
+      ],
+      "type": "object"
     }
   },
   "required": [
     "aws_credentials",
-    "gcs_uri"
+    "gcs_blob",
+    "aws_s3_object"
   ],
   "type": "object"
 }

@@ -1,5 +1,6 @@
-from gcs_s3_transfer_service.gcs import GcsBlob
 import pytest
+
+from gcs_s3_transfer_service.gcs import GcsBlob
 
 
 def stub_download_as_string(start=None, end=None, data=b"abc123"):
@@ -9,7 +10,7 @@ def stub_download_as_string(start=None, end=None, data=b"abc123"):
         end = len(data) - 1
     if start > end:
         return data
-    return data[start: end + 1]
+    return data[start : end + 1]
 
 
 @pytest.mark.parametrize(
