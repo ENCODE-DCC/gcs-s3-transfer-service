@@ -10,17 +10,8 @@ def schema():
     return load_schema("upload")
 
 
-def test_upload_schema_valid(schema):
-    data = {
-        "aws_credentials": {
-            "aws_access_key_id": "foo",
-            "aws_secret_key": "bar",
-            "aws_session_token": "baz",
-        },
-        "aws_s3_object": {"bucket": "s3", "key": "object"},
-        "gcs_blob": {"bucket": "cool", "name": "object"},
-    }
-    validate(data, schema=schema)
+def test_upload_schema_valid(schema, valid_upload_post_body):
+    validate(valid_upload_post_body, schema=schema)
 
 
 @pytest.mark.parametrize(
