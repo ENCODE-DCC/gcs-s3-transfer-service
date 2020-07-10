@@ -1,3 +1,6 @@
 ---
+# Runs in default service
 runtime: python38
-service: gcs-s3-upload
+basic_scaling:
+  max_instances: 50
+  idle_timeout: 1m

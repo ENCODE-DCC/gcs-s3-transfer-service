@@ -1,3 +1,4 @@
+import time
 from http import HTTPStatus
 from typing import Any, Dict, Tuple, Union
 
@@ -98,6 +99,7 @@ def upload() -> Tuple[Dict[str, Union[str, Dict[str, str]]], HTTPStatus]:
 
     app.logger.info("Uploading file %s to %s", gcs_uri, s3_uri)
     try:
+        start = time.perf_counter()
         s3.upload_fileobj(
             gcs_blob, s3_bucket, s3_key,
         )
@@ -113,9 +115,16 @@ def upload() -> Tuple[Dict[str, Union[str, Dict[str, str]]], HTTPStatus]:
             HTTPStatus.INTERNAL_SERVER_ERROR,
         )
     else:
-        app.logger.info("Finished uploading file %s", gcs_uri)
+        end = time.perf_counter()
+        # Need to reload to get blob size
+        gcs_blob.reload()
+        elapsed = end - start
+        blob_size_mb = gcs_blob.size / 1e6
+        upload_speed_mb_s = blob_size_mb / elapsed
+        message = f"Successfully uploaded file {gcs_uri} ({blob_size_mb} MB) in {elapsed} seconds, {upload_speed_mb_s} MB/s"
+        app.logger.info(message)
         return (
-            {"message": f"Successfully uploaded {gcs_uri} to {s3_uri}"},
+            {"message": message},
             HTTPStatus.OK,
         )
 
