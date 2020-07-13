@@ -11,10 +11,18 @@ The app entrypoint is in [main.py](main.py). Per [App Engine docs](https://cloud
 
 ## Deployment to App Engine
 
-From the root of the repo, run the following:
+From the root of the repo, run the following from the root of this repo:
 
 ```bash
 gcloud app deploy
 ```
 
-To deploy the `queue.yaml`, run the following. This will enable you to trigger uploads via a Cloud Tasks queue, instead of raw POSTs to the App Engine endpoint.
+To deploy the `queue.yaml`, run the following from the root of this repo:
+
+```bash
+gcloud app deploy queue.yaml
+```
+
+This will enable you to trigger uploads via a Cloud Tasks queue, instead of raw POSTs to the App Engine endpoint.
+
+*WARNING*: Deploying like this will disable existing queues not specified in the `queue.yaml`
