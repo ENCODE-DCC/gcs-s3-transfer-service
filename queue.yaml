@@ -1,0 +1,11 @@
+---
+queue:
+  - name: gcs-s3-transfer
+    bucket_size: 500
+    max_concurrent_requests: 40
+    retry_parameters:
+      task_retry_limit: 3
+      # Portal upload credentials expire after 24 h, so no need to keep retrying after
+      task_age_limit: 1d
+      min_backoff_seconds: 1
+      max_backoff_seconds: 7200

@@ -16,3 +16,5 @@ From the root of the repo, run the following:
 ```bash
 gcloud app deploy
 ```
+
+To deploy the `queue.yaml`, run the following. This will enable you to trigger uploads via a Cloud Tasks queue, instead of raw POSTs to the App Engine endpoint.
