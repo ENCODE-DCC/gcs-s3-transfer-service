@@ -139,9 +139,9 @@ def _get_s3_client(request_json: Dict[str, Any]):
     """
     s3 = boto3.client(
         "s3",
-        aws_access_key_id=request.json["aws_credentials"]["access_key"],
-        aws_secret_access_key=request.json["aws_credentials"]["secret_key"],
-        aws_session_token=request.json["aws_credentials"]["session_token"],
+        aws_access_key_id=request.json["aws_credentials"]["aws_access_key_id"],
+        aws_secret_access_key=request.json["aws_credentials"]["aws_secret_access_key"],
+        aws_session_token=request.json["aws_credentials"]["aws_session_token"],
     )
     return s3
 

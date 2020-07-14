@@ -15,7 +15,7 @@ def valid_upload_post_body():
     data = {
         "aws_credentials": {
             "aws_access_key_id": "foo",
-            "aws_secret_key": "bar",
+            "aws_secret_access_key": "bar",
             "aws_session_token": "baz",
         },
         "aws_s3_object": {"bucket": "s3", "key": "object"},

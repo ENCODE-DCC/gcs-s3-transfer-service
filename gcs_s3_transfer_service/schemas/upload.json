@@ -5,7 +5,7 @@
         "aws_access_key_id": {
           "type": "string"
         },
-        "aws_secret_key": {
+        "aws_secret_access_key": {
           "type": "string"
         },
         "aws_session_token": {
@@ -14,7 +14,7 @@
       },
       "required": [
         "aws_access_key_id",
-        "aws_secret_key",
+        "aws_secret_access_key",
         "aws_session_token"
       ],
       "type": "object"
