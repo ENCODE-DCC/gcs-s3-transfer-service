@@ -3,3 +3,4 @@
 !app.yaml
 !requirements.txt
 !gcs_s3_transfer_service/**
+__pycache__

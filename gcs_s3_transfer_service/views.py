@@ -1,3 +1,4 @@
+import logging
 import time
 from http import HTTPStatus
 from typing import Any, Dict, Tuple, Union
@@ -11,6 +12,15 @@ from jsonschema.exceptions import ValidationError
 from gcs_s3_transfer_service import app
 from gcs_s3_transfer_service.gcs import GcsBlob
 from gcs_s3_transfer_service.schemas.load import load_schema
+
+
+@app.before_first_request
+def setup_logging() -> None:
+    if not app.debug:
+        # In production mode, add log handler to sys.stderr.
+        gunicorn_logger = logging.getLogger("gunicorn.error")
+        app.logger.handlers.extend(gunicorn_logger.handlers)
+        app.logger.setLevel(logging.INFO)
 
 
 @app.errorhandler(HTTPStatus.NOT_FOUND)
