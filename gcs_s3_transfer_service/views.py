@@ -33,6 +33,7 @@ def page_not_found(error) -> Tuple[Dict[str, Dict[str, str]], HTTPStatus]:
     """
     Make a nice JSON response on 404
     """
+    app.logger.critical("Page not found, reason: %s", str(error))
     return (
         {"error": {"message": "Page not found", "reason": str(error)}},
         HTTPStatus.NOT_FOUND,
@@ -65,6 +66,9 @@ def upload() -> Tuple[Dict[str, Union[str, Dict[str, str]]], HTTPStatus]:
     try:
         validate(request.json, schema=schema)
     except ValidationError as validation_error:
+        app.logger.exception(
+            "Failed to validate posted JSON, message: %s", validation_error.message
+        )
         return (
             {
                 "error": {
