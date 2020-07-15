@@ -1,4 +1,5 @@
 import logging
+import sys
 import time
 from http import HTTPStatus
 from typing import Any, Dict, Tuple, Union
@@ -17,10 +18,14 @@ from gcs_s3_transfer_service.schemas.load import load_schema
 @app.before_first_request
 def setup_logging() -> None:
     if not app.debug:
-        # In production mode, add log handler to sys.stderr.
-        gunicorn_logger = logging.getLogger("gunicorn.error")
-        app.logger.handlers.extend(gunicorn_logger.handlers)
-        app.logger.setLevel(logging.INFO)
+        stderr_handler = logging.StreamHandler(sys.stderr)
+        stderr_handler.setLevel(logging.INFO)
+        formatter = logging.Formatter(
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+        )
+        stderr_handler.setFormatter(formatter)
+        app.logger.addHandler(stderr_handler)
+        app.logger.info("Using production logging configuration")
 
 
 @app.errorhandler(HTTPStatus.NOT_FOUND)
