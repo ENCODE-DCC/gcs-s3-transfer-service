@@ -23,6 +23,12 @@ To deploy the `queue.yaml`, run the following from the root of this repo:
 gcloud app deploy queue.yaml
 ```
 
+It is also recommended to enable logging for the queue via the following:
+
+```
+gcloud tasks queues update gcs-s3-transfer --log-sampling-ratio=1.0
+```
+
 This will enable you to trigger uploads via a Cloud Tasks queue, instead of raw POSTs to the App Engine endpoint.
 
 *WARNING*: Deploying like this will disable existing queues not specified in the `queue.yaml`
