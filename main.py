@@ -1,4 +1,5 @@
 import logging
+import sys
 
 from gcs_s3_transfer_service import app
 
@@ -8,6 +9,10 @@ if __name__ == "__main__":
     app.run(host="127.0.0.1", port=8080, debug=True)
 else:
     # When not running in debug mode need to set the app logging handlers
-    gunicorn_logger = logging.getLogger("gunicorn.error")
-    app.logger.handlers.extend(gunicorn_logger.handlers)
-    app.logger.setLevel(gunicorn_logger.level)
+    stderr_handler = logging.StreamHandler(sys.stderr)
+    stderr_handler.setLevel(logging.INFO)
+    formatter = logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
+    stderr_handler.setFormatter(formatter)
+    app.logger.addHandler(stderr_handler)
