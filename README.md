@@ -32,3 +32,9 @@ gcloud tasks queues update gcs-s3-transfer --log-sampling-ratio=1.0
 This will enable you to trigger uploads via a Cloud Tasks queue, instead of raw POSTs to the App Engine endpoint.
 
 *WARNING*: Deploying like this will disable existing queues not specified in the `queue.yaml`
+
+## Logs and Monitoring
+
+Logs will appear under `stderr` GCP `Logging`. The easiest way to get to the relevant logs on the GCP console is to navigate to `App Engine > Services`, then under `Diagnose` on the right hand side click the `Logs` in the dropdown menu.
+
+CPU, memory, and other instance stats will appear under `Monitoring > Dashboards` , click on `App Engine` to filter.
