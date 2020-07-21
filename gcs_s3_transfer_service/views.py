@@ -20,7 +20,9 @@ from gcs_s3_transfer_service.schemas.load import load_schema
 def setup_logging() -> None:
     """
     Setup our own logging when not running in debug mode, and always configure logging
-    to accept info messages.
+    to accept info messages. Oddly without running `app.logger.setLevel` messages with
+    level `logging.INFO` don't seem to get logged, see
+    https://gist.github.com/ibeex/3257877#gistcomment-1397968
     """
     if not app.debug:
         stderr_handler = logging.StreamHandler(sys.stderr)
