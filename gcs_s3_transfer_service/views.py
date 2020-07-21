@@ -114,6 +114,7 @@ def upload() -> Tuple[Dict[str, Union[str, Dict[str, str]]], HTTPStatus]:
         )
 
     gcs_blob = GcsBlob(request.json["gcs_blob"]["name"], bucket)
+    gcs_blob.reload()
     gcs_uri = f"gs://{gcs_blob.bucket}/{gcs_blob.name}"
 
     app.logger.info("Uploading file %s to %s", gcs_uri, s3_uri)
@@ -135,8 +136,6 @@ def upload() -> Tuple[Dict[str, Union[str, Dict[str, str]]], HTTPStatus]:
         )
     else:
         end = time.perf_counter()
-        # Need to reload to get blob size
-        gcs_blob.reload()
         elapsed = end - start
         blob_size_mb = gcs_blob.size / 1e6
         upload_speed_mb_s = blob_size_mb / elapsed
