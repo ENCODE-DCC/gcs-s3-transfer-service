@@ -6,6 +6,7 @@ from typing import Any, Dict, Tuple, Union
 
 import boto3
 from flask import request
+from flask.logging import default_handler
 from google.cloud import storage
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
@@ -17,6 +18,10 @@ from gcs_s3_transfer_service.schemas.load import load_schema
 
 @app.before_first_request
 def setup_logging() -> None:
+    """
+    Setup our own logging when not running in debug mode, and always configure logging
+    to accept info messages.
+    """
     if not app.debug:
         stderr_handler = logging.StreamHandler(sys.stderr)
         stderr_handler.setLevel(logging.INFO)
@@ -25,7 +30,8 @@ def setup_logging() -> None:
         )
         stderr_handler.setFormatter(formatter)
         app.logger.addHandler(stderr_handler)
-        app.logger.info("Using production logging configuration")
+        app.logger.removeHandler(default_handler)
+    app.logger.setLevel(logging.DEBUG)
 
 
 @app.errorhandler(HTTPStatus.NOT_FOUND)
